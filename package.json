@@ -24,6 +24,9 @@
     "coveralls": "npm run cover && istanbul-coveralls"
   },
   "dependencies": {
+    "safe-buffer": "^5.1.0",
+    "strip-bom-buffer": "^1.0.1",
+    "through2": "^2.0.3"
   },
   "devDependencies": {
     "buffer-equal": "^1.0.0",
