@@ -1,6 +1,6 @@
 {
   "name": "remove-bom-stream",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Remove a UTF8 BOM at the start of the stream.",
   "author": "Gulp Team <team@gulpjs.com> (http://gulpjs.com/)",
   "contributors": [
