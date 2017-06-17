@@ -1,7 +1,7 @@
 'use strict';
 
 var through = require('through2');
-var removeBom = require('strip-bom-buffer');
+var removeBom = require('remove-bom-buffer');
 var SafeBuffer = require('safe-buffer').Buffer;
 
 function removeBomStream() {

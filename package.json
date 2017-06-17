@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "safe-buffer": "^5.1.0",
-    "strip-bom-buffer": "^1.0.1",
+    "remove-bom-buffer": "^2.0.0",
     "through2": "^2.0.3"
   },
   "devDependencies": {
@@ -44,6 +44,8 @@
   "keywords": [
     "bom",
     "remove",
-    "utf8"
+    "utf8",
+    "streaming",
+    "stream"
   ]
 }
