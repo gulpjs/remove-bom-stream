@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "safe-buffer": "^5.1.0",
-    "remove-bom-buffer": "^2.0.0",
+    "remove-bom-buffer": "^3.0.0",
     "through2": "^2.0.3"
   },
   "devDependencies": {
