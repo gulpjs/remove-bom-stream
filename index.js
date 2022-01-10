@@ -2,11 +2,10 @@
 
 var through = require('through2');
 var removeBom = require('remove-bom-buffer');
-var SafeBuffer = require('safe-buffer').Buffer;
 
 function removeBomStream() {
   var completed = false;
-  var buffer = SafeBuffer.alloc(0);
+  var buffer = Buffer.alloc(0);
 
   return through(onChunk, onFlush);
 
@@ -31,7 +30,7 @@ function removeBomStream() {
     var chunkLength = data.length;
     var totalLength = bufferLength + chunkLength;
 
-    buffer = SafeBuffer.concat([buffer, data], totalLength);
+    buffer = Buffer.concat([buffer, data], totalLength);
 
     if (totalLength >= 7) {
       return cb(null, removeAndCleanup(buffer));
