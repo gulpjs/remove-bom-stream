@@ -19,9 +19,11 @@ var removeBOM = require('remove-bom-stream');
 
 fs.createReadStream('utf8-file-with-bom.txt')
   .pipe(removeBOM())
-  .pipe(concat(function(result) {
-    // result won't have a BOM
-  }));
+  .pipe(
+    concat(function (result) {
+      // result won't have a BOM
+    })
+  );
 ```
 
 ## API
@@ -33,7 +35,6 @@ Returns a `through2` stream that will remove a BOM, given the data is a UTF8 Buf
 ## License
 
 MIT
-
 
 <!-- prettier-ignore-start -->
 [downloads-image]: https://img.shields.io/npm/dm/remove-bom-stream.svg?style=flat-square
