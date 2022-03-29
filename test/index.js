@@ -29,13 +29,13 @@ describe('removeBomStream', function () {
     );
   });
 
-  it('ignores UTF8 buffer without a BOM even if first chunk is shorter than 7 chars but second and subsequent are larger', function(done) {
+  it('ignores UTF8 buffer without a BOM even if first chunk is shorter than 7 chars but second and subsequent are larger', function (done) {
     var filepath = path.join(__dirname, './fixtures/test.txt');
     var fileContent = fs.readFileSync(filepath, 'utf-8');
 
     var rmBom = removeBomStream();
     var output = '';
-    rmBom.on('data', function(d) {
+    rmBom.on('data', function (d) {
       output += d.toString();
     });
     rmBom.write(Buffer.from(fileContent.slice(0, 5)));
@@ -45,7 +45,7 @@ describe('removeBomStream', function () {
     done();
   });
 
-  it('removes the BOM from a UTF8 buffer', function(done) {
+  it('removes the BOM from a UTF8 buffer', function (done) {
     var filepath = path.join(__dirname, './fixtures/bom-utf8.txt');
 
     var expected = fs.readFileSync(filepath).slice(3);
@@ -97,13 +97,13 @@ describe('removeBomStream', function () {
     );
   });
 
-  it('remove the BOM from a UTF8 buffer even if first chunk is shorter than 7 chars but second and subsequent are larger', function(done) {
+  it('remove the BOM from a UTF8 buffer even if first chunk is shorter than 7 chars but second and subsequent are larger', function (done) {
     var filepath = path.join(__dirname, './fixtures/bom-utf8.txt');
     var fileContent = fs.readFileSync(filepath, 'utf-8');
 
     var rmBom = removeBomStream();
     var output = '';
-    rmBom.on('data', function(d) {
+    rmBom.on('data', function (d) {
       output += d.toString();
     });
     rmBom.write(Buffer.from(fileContent.slice(0, 5)));
@@ -113,7 +113,7 @@ describe('removeBomStream', function () {
     done();
   });
 
-  it('does not remove the BOM from a UTF16BE buffer', function(done) {
+  it('does not remove the BOM from a UTF16BE buffer', function (done) {
     var filepath = path.join(__dirname, './fixtures/bom-utf16be.txt');
 
     var expected = fs.readFileSync(filepath);
