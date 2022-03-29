@@ -4,13 +4,13 @@ var through = require('through2');
 var removeBom = require('remove-bom-buffer');
 
 function removeBomStream() {
-  var completed = false;
+  var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
   var buffer = Buffer.alloc(0);
 
   return through(onChunk, onFlush);
 
   function removeAndCleanup(data) {
-    completed = true;
+    state = 1; // Already removed
 
     buffer = null;
 
@@ -18,13 +18,15 @@ function removeBomStream() {
   }
 
   function onChunk(data, enc, cb) {
-    if (completed) {
+    if (state === 1) {
       return cb(null, data);
     }
 
-    if (data.length >= 7) {
+    if (state === 0 /* Not removed */ && data.length >= 7) {
       return cb(null, removeAndCleanup(data));
     }
+
+    state = -1; // In removing
 
     var bufferLength = buffer.length;
     var chunkLength = data.length;
@@ -39,7 +41,7 @@ function removeBomStream() {
   }
 
   function onFlush(cb) {
-    if (completed || !buffer) {
+    if (state === 2 /* Already removed */ || !buffer) {
       return cb();
     }
 
