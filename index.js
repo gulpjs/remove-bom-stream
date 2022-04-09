@@ -1,12 +1,14 @@
 'use strict';
 
 var through = require('through2');
-var isUTF8 = require('is-utf8');
 var TextDecoder = require('util').TextDecoder;
 
 var removeBom = new TextDecoder('utf-8', { ignoreBOM: false });
 
-function removeBomStream() {
+function removeBomStream(encoding) {
+  encoding = (encoding || '').toLowerCase();
+  var isUtf8 = (encoding === 'utf-8' || encoding === 'utf8');
+
   var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
   var buffer = Buffer.alloc(0);
 
@@ -17,7 +19,7 @@ function removeBomStream() {
 
     buffer = null;
 
-    if (isUTF8(data)) {
+    if (isUtf8) {
       return removeBom.decode(data);
     }
     return data;

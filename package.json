@@ -22,7 +22,6 @@
     "test": "nyc mocha --async-only"
   },
   "dependencies": {
-    "is-utf8": "^0.2.1",
     "through2": "^4.0.2"
   },
   "devDependencies": {
