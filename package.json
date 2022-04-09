@@ -22,7 +22,7 @@
     "test": "nyc mocha --async-only"
   },
   "dependencies": {
-    "remove-bom-buffer": "^3.0.0",
+    "is-utf8": "^0.2.1",
     "through2": "^4.0.2"
   },
   "devDependencies": {

@@ -1,7 +1,10 @@
 'use strict';
 
 var through = require('through2');
-var removeBom = require('remove-bom-buffer');
+var isUTF8 = require('is-utf8');
+var TextDecoder = require('util').TextDecoder;
+
+var removeBom = new TextDecoder('utf-8', { ignoreBOM: false });
 
 function removeBomStream() {
   var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
@@ -14,7 +17,10 @@ function removeBomStream() {
 
     buffer = null;
 
-    return removeBom(data);
+    if (isUTF8(data)) {
+      return removeBom.decode(data);
+    }
+    return data;
   }
 
   function onChunk(data, enc, cb) {
