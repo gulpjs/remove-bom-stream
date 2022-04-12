@@ -3,57 +3,36 @@
 var through = require('through2');
 var TextDecoder = require('util').TextDecoder;
 
-var removeBom = new TextDecoder('utf-8', { ignoreBOM: false });
-
 function removeBomStream(encoding) {
   encoding = (encoding || '').toLowerCase();
-  var isUtf8 = (encoding === 'utf-8' || encoding === 'utf8');
+  var isUTF8 = (encoding === 'utf-8' || encoding === 'utf8');
+
+  // Only used if encoding is UTF-8
+  var decoder = new TextDecoder('utf-8', { ignoreBOM: false });
 
   var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
-  var buffer = Buffer.alloc(0);
 
-  return through(onChunk, onFlush);
+  return through(onChunk);
 
-  function removeAndCleanup(data) {
-    state = 1; // Already removed
+  function onChunk(data, _, cb) {
+    if (state === 1 || !isUTF8) {
+      cb(null, data);
+    } else {
+      try {
+        state = -1;
 
-    buffer = null;
+        var chunk = decoder.decode(data, { stream: true });
 
-    if (isUtf8) {
-      return removeBom.decode(data);
+        // The first time we have data after a decode, it should have already removed the BOM
+        if (chunk !== '') {
+          state = 1
+        }
+
+        cb(null, Buffer.from(chunk, encoding));
+      } catch (err) {
+        cb(err);
+      }
     }
-    return data;
-  }
-
-  function onChunk(data, enc, cb) {
-    if (state === 1) {
-      return cb(null, data);
-    }
-
-    if (state === 0 /* Not removed */ && data.length >= 7) {
-      return cb(null, removeAndCleanup(data));
-    }
-
-    state = -1; // In removing
-
-    var bufferLength = buffer.length;
-    var chunkLength = data.length;
-    var totalLength = bufferLength + chunkLength;
-
-    buffer = Buffer.concat([buffer, data], totalLength);
-
-    if (totalLength >= 7) {
-      return cb(null, removeAndCleanup(buffer));
-    }
-    cb();
-  }
-
-  function onFlush(cb) {
-    if (state === 2 /* Already removed */ || !buffer) {
-      return cb();
-    }
-
-    cb(null, removeAndCleanup(buffer));
   }
 }
 
