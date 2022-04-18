@@ -37,7 +37,8 @@ function removeBomStream(encoding) {
 
         var buffer = Buffer.from(chunk, 'utf-8');
 
-        // Node<=v11, TextDecoder#decode returns a BOM if it receives a BOM separately.
+        // Node<=v12, TextDecoder#decode returns a BOM if it receives a BOM separately.
+        // Ref https://github.com/nodejs/node/pull/30132
         if (BOM.compare(buffer) !== 0) {
           state = 1;
           cb(null, buffer);
