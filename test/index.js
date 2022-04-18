@@ -5,7 +5,6 @@ var path = require('path');
 var pipeline = require('stream').pipeline;
 
 var expect = require('expect');
-var isEqual = require('buffer-equal');
 var concat = require('concat-stream');
 var chunker = require('stream-chunker');
 var Readable = require('streamx').Readable;
@@ -19,7 +18,7 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
@@ -56,7 +55,7 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath).slice(3);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
@@ -71,7 +70,7 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath).slice(3);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
@@ -93,7 +92,7 @@ describe('removeBomStream', function () {
     function assert(data) {
       expect(data.length < 7).toEqual(true);
       expect(expected.length < 7).toEqual(true);
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
@@ -131,7 +130,7 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
@@ -150,7 +149,7 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
@@ -169,7 +168,7 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
     pipeline(
