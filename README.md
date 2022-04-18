@@ -18,7 +18,7 @@ var concat = require('concat-stream');
 var removeBOM = require('remove-bom-stream');
 
 fs.createReadStream('utf8-file-with-bom.txt')
-  .pipe(removeBOM())
+  .pipe(removeBOM('utf-8'))
   .pipe(
     concat(function (result) {
       // result won't have a BOM
@@ -28,9 +28,9 @@ fs.createReadStream('utf8-file-with-bom.txt')
 
 ## API
 
-### `removeBOM()`
+### `removeBOM(encoding)`
 
-Returns a `through2` stream that will remove a BOM, given the data is a UTF8 Buffer with a BOM at the beginning. If the data is not UTF8 or does not have a BOM, the data is not changed and this becomes a normal passthrough stream.
+Returns a `through2` stream that will remove a BOM, if the argument `encoding` is `'utf-8'` and the given data is a UTF8 Buffer with a BOM at the beginning. If the `encoding` is not `'utf-8'` or does not have a BOM, the data is not changed and this becomes a normal passthrough stream.
 
 ## License
 

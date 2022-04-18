@@ -22,7 +22,6 @@
     "test": "nyc mocha --async-only"
   },
   "dependencies": {
-    "remove-bom-buffer": "^3.0.0",
     "through2": "^4.0.2"
   },
   "devDependencies": {

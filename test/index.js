@@ -24,7 +24,7 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream(), concat(assert)],
+      [fs.createReadStream(filepath), removeBomStream('utf-8'), concat(assert)],
       done
     );
   });
@@ -33,7 +33,7 @@ describe('removeBomStream', function () {
     var filepath = path.join(__dirname, './fixtures/test.txt');
     var fileContent = fs.readFileSync(filepath, 'utf-8');
 
-    var rmBom = removeBomStream();
+    var rmBom = removeBomStream('utf8');
     var output = '';
     rmBom.on('data', function (d) {
       output += d.toString();
@@ -55,7 +55,7 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream(), concat(assert)],
+      [fs.createReadStream(filepath), removeBomStream('UTF-8'), concat(assert)],
       done
     );
   });
@@ -73,7 +73,7 @@ describe('removeBomStream', function () {
       [
         fs.createReadStream(filepath),
         chunker(1),
-        removeBomStream(),
+        removeBomStream('UTF8'),
         concat(assert),
       ],
       done
@@ -92,7 +92,7 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream(), concat(assert)],
+      [fs.createReadStream(filepath), removeBomStream('UTF-8'), concat(assert)],
       done
     );
   });
@@ -101,7 +101,7 @@ describe('removeBomStream', function () {
     var filepath = path.join(__dirname, './fixtures/bom-utf8.txt');
     var fileContent = fs.readFileSync(filepath, 'utf-8');
 
-    var rmBom = removeBomStream();
+    var rmBom = removeBomStream('utf-8');
     var output = '';
     rmBom.on('data', function (d) {
       output += d.toString();
@@ -123,7 +123,7 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream(), concat(assert)],
+      [fs.createReadStream(filepath), removeBomStream('utf-16be'), concat(assert)],
       done
     );
   });
@@ -138,7 +138,7 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream(), concat(assert)],
+      [fs.createReadStream(filepath), removeBomStream('utf-16be'), concat(assert)],
       done
     );
   });
@@ -153,7 +153,7 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream(), concat(assert)],
+      [fs.createReadStream(filepath), removeBomStream('utf-16le'), concat(assert)],
       done
     );
   });

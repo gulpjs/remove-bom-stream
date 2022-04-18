@@ -1,51 +1,56 @@
 'use strict';
 
 var through = require('through2');
-var removeBom = require('remove-bom-buffer');
+var TextDecoder = require('util').TextDecoder;
 
-function removeBomStream() {
+var BOM = '\ufeff';
+
+function removeBomStream(encoding) {
+  encoding = (encoding || '').toLowerCase();
+  var isUTF8 = (encoding === 'utf-8' || encoding === 'utf8');
+
+  // Needed due to https://github.com/nodejs/node/pull/42779
+  if (!isUTF8) {
+    return through();
+  }
+
+  // Only used if encoding is UTF-8
+  var decoder = new TextDecoder('utf-8', { ignoreBOM: false });
+
   var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
-  var buffer = Buffer.alloc(0);
 
-  return through(onChunk, onFlush);
+  return through(onChunk);
 
-  function removeAndCleanup(data) {
-    state = 1; // Already removed
-
-    buffer = null;
-
-    return removeBom(data);
-  }
-
-  function onChunk(data, enc, cb) {
+  function onChunk(data, _, cb) {
     if (state === 1) {
-      return cb(null, data);
+      cb(null, data);
+      return;
     }
 
-    if (state === 0 /* Not removed */ && data.length >= 7) {
-      return cb(null, removeAndCleanup(data));
+    try {
+      state = -1;
+
+      var chunk = decoder.decode(data, { stream: true });
+
+      // The first time we have data after a decode, it should have already removed the BOM
+      if (chunk !== '') {
+        chunk += decoder.decode(); // end of stream mode and clear inner buffer.
+
+        // Node<=v12, TextDecoder#decode returns a BOM if it receives a BOM separately.
+        // Ref https://github.com/nodejs/node/pull/30132
+        if (chunk !== BOM) {
+          state = 1;
+          var buffer = Buffer.from(chunk, 'utf-8');
+
+          cb(null, buffer);
+          return;
+        }
+      }
+
+      cb();
+    } catch (err) {
+      cb(err);
     }
-
-    state = -1; // In removing
-
-    var bufferLength = buffer.length;
-    var chunkLength = data.length;
-    var totalLength = bufferLength + chunkLength;
-
-    buffer = Buffer.concat([buffer, data], totalLength);
-
-    if (totalLength >= 7) {
-      return cb(null, removeAndCleanup(buffer));
-    }
-    cb();
-  }
-
-  function onFlush(cb) {
-    if (state === 2 /* Already removed */ || !buffer) {
-      return cb();
-    }
-
-    cb(null, removeAndCleanup(buffer));
   }
 }
 
