@@ -123,7 +123,11 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream('utf-16be'), concat(assert)],
+      [
+        fs.createReadStream(filepath),
+        removeBomStream('utf-16be'),
+        concat(assert),
+      ],
       done
     );
   });
@@ -138,7 +142,11 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream('utf-16be'), concat(assert)],
+      [
+        fs.createReadStream(filepath),
+        removeBomStream('utf-16be'),
+        concat(assert),
+      ],
       done
     );
   });
@@ -153,7 +161,11 @@ describe('removeBomStream', function () {
     }
 
     pipe(
-      [fs.createReadStream(filepath), removeBomStream('utf-16le'), concat(assert)],
+      [
+        fs.createReadStream(filepath),
+        removeBomStream('utf-16le'),
+        concat(assert),
+      ],
       done
     );
   });

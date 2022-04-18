@@ -7,7 +7,7 @@ var BOM = '\ufeff';
 
 function removeBomStream(encoding) {
   encoding = (encoding || '').toLowerCase();
-  var isUTF8 = (encoding === 'utf-8' || encoding === 'utf8');
+  var isUTF8 = encoding === 'utf-8' || encoding === 'utf8';
 
   // Needed due to https://github.com/nodejs/node/pull/42779
   if (!isUTF8) {
