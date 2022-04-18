@@ -3,7 +3,7 @@
 var through = require('through2');
 var TextDecoder = require('util').TextDecoder;
 
-var BOM = Buffer.from([0xEF, 0xBB, 0xBF], 'utf-8');
+var BOM = '\ufeff';
 
 function removeBomStream(encoding) {
   encoding = (encoding || '').toLowerCase();
@@ -35,12 +35,12 @@ function removeBomStream(encoding) {
       if (chunk !== '') {
         chunk += decoder.decode(); // end of stream mode and clear inner buffer.
 
-        var buffer = Buffer.from(chunk, 'utf-8');
-
         // Node<=v12, TextDecoder#decode returns a BOM if it receives a BOM separately.
         // Ref https://github.com/nodejs/node/pull/30132
-        if (BOM.compare(buffer) !== 0) {
+        if (chunk !== BOM) {
           state = 1;
+          var buffer = Buffer.from(chunk, 'utf-8');
+
           cb(null, buffer);
           return;
         }
