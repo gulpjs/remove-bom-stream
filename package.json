@@ -22,15 +22,15 @@
     "test": "nyc mocha --async-only"
   },
   "dependencies": {
-    "through2": "^4.0.2"
+    "streamx": "^2.12.4"
   },
   "devDependencies": {
     "buffer-equal": "^1.0.0",
+    "concat-stream": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-config-gulp": "^5.0.1",
     "eslint-plugin-node": "^11.1.0",
     "expect": "^27.4.2",
-    "mississippi": "^4.0.0",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
     "stream-chunker": "^1.2.8"
