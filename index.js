@@ -20,7 +20,7 @@ function removeBomStream(encoding) {
   var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
 
   return new Transform({
-    transform: onChunk
+    transform: onChunk,
   });
 
   function onChunk(data, cb) {

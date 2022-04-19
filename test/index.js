@@ -38,11 +38,7 @@ describe('removeBomStream', function () {
     }
 
     var reader = new Readable();
-    pipeline([
-      reader,
-      removeBomStream('utf-8'),
-      concat(assert)
-    ], done);
+    pipeline([reader, removeBomStream('utf-8'), concat(assert)], done);
 
     reader.push(fileContent.slice(0, 5));
     reader.push(fileContent.slice(5));
@@ -113,11 +109,7 @@ describe('removeBomStream', function () {
     }
 
     var reader = new Readable();
-    pipeline([
-      reader,
-      removeBomStream('utf-8'),
-      concat(assert)
-    ], done);
+    pipeline([reader, removeBomStream('utf-8'), concat(assert)], done);
 
     reader.push(fileContent.slice(0, 5));
     reader.push(fileContent.slice(5));
