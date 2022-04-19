@@ -2,16 +2,14 @@
 
 var fs = require('fs');
 var path = require('path');
+var pipeline = require('stream').pipeline;
 
 var expect = require('expect');
-var miss = require('mississippi');
-var isEqual = require('buffer-equal');
+var concat = require('concat-stream');
 var chunker = require('stream-chunker');
+var Readable = require('streamx').Readable;
 
 var removeBomStream = require('../');
-
-var pipe = miss.pipe;
-var concat = miss.concat;
 
 describe('removeBomStream', function () {
   it('ignores UTF8 buffer without a BOM', function (done) {
@@ -20,10 +18,10 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [fs.createReadStream(filepath), removeBomStream('utf-8'), concat(assert)],
       done
     );
@@ -31,18 +29,24 @@ describe('removeBomStream', function () {
 
   it('ignores UTF8 buffer without a BOM even if first chunk is shorter than 7 chars but second and subsequent are larger', function (done) {
     var filepath = path.join(__dirname, './fixtures/test.txt');
-    var fileContent = fs.readFileSync(filepath, 'utf-8');
+    var fileContent = fs.readFileSync(filepath);
 
-    var rmBom = removeBomStream('utf8');
-    var output = '';
-    rmBom.on('data', function (d) {
-      output += d.toString();
-    });
-    rmBom.write(Buffer.from(fileContent.slice(0, 5)));
-    rmBom.write(Buffer.from(fileContent.slice(5)));
+    var expected = fileContent;
 
-    expect(output).toEqual(fileContent);
-    done();
+    function assert(data) {
+      expect(data).toEqual(expected);
+    }
+
+    var reader = new Readable();
+    pipeline([
+      reader,
+      removeBomStream('utf-8'),
+      concat(assert)
+    ], done);
+
+    reader.push(fileContent.slice(0, 5));
+    reader.push(fileContent.slice(5));
+    reader.push(null);
   });
 
   it('removes the BOM from a UTF8 buffer', function (done) {
@@ -51,10 +55,10 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath).slice(3);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [fs.createReadStream(filepath), removeBomStream('UTF-8'), concat(assert)],
       done
     );
@@ -66,10 +70,10 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath).slice(3);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [
         fs.createReadStream(filepath),
         chunker(1),
@@ -88,10 +92,10 @@ describe('removeBomStream', function () {
     function assert(data) {
       expect(data.length < 7).toEqual(true);
       expect(expected.length < 7).toEqual(true);
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [fs.createReadStream(filepath), removeBomStream('UTF-8'), concat(assert)],
       done
     );
@@ -99,18 +103,25 @@ describe('removeBomStream', function () {
 
   it('remove the BOM from a UTF8 buffer even if first chunk is shorter than 7 chars but second and subsequent are larger', function (done) {
     var filepath = path.join(__dirname, './fixtures/bom-utf8.txt');
-    var fileContent = fs.readFileSync(filepath, 'utf-8');
+    var fileContent = fs.readFileSync(filepath);
 
-    var rmBom = removeBomStream('utf-8');
-    var output = '';
-    rmBom.on('data', function (d) {
-      output += d.toString();
-    });
-    rmBom.write(Buffer.from(fileContent.slice(0, 5)));
-    rmBom.write(Buffer.from(fileContent.slice(5)));
+    // UTF8 BOM takes up 3 characters in the buffer
+    var expected = fileContent.slice(3);
 
-    expect(output).toEqual(fileContent.slice(1));
-    done();
+    function assert(data) {
+      expect(data).toEqual(expected);
+    }
+
+    var reader = new Readable();
+    pipeline([
+      reader,
+      removeBomStream('utf-8'),
+      concat(assert)
+    ], done);
+
+    reader.push(fileContent.slice(0, 5));
+    reader.push(fileContent.slice(5));
+    reader.push(null);
   });
 
   it('does not remove the BOM from a UTF16BE buffer', function (done) {
@@ -119,10 +130,10 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [
         fs.createReadStream(filepath),
         removeBomStream('utf-16be'),
@@ -138,10 +149,10 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [
         fs.createReadStream(filepath),
         removeBomStream('utf-16be'),
@@ -157,10 +168,10 @@ describe('removeBomStream', function () {
     var expected = fs.readFileSync(filepath);
 
     function assert(data) {
-      expect(isEqual(data, expected)).toEqual(true);
+      expect(data).toEqual(expected);
     }
 
-    pipe(
+    pipeline(
       [
         fs.createReadStream(filepath),
         removeBomStream('utf-16le'),

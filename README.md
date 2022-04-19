@@ -30,7 +30,7 @@ fs.createReadStream('utf8-file-with-bom.txt')
 
 ### `removeBOM(encoding)`
 
-Returns a `through2` stream that will remove a BOM, if the argument `encoding` is `'utf-8'` and the given data is a UTF8 Buffer with a BOM at the beginning. If the `encoding` is not `'utf-8'` or does not have a BOM, the data is not changed and this becomes a normal passthrough stream.
+Returns a `Transform` stream that will remove a BOM, if the argument `encoding` is `'utf-8'` and the given data is a UTF8 Buffer with a BOM at the beginning. If the `encoding` is not `'utf-8'` or does not have a BOM, the data is not changed and this becomes a no-op `Transform` stream.
 
 ## License
 

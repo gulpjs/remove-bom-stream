@@ -1,6 +1,6 @@
 'use strict';
 
-var through = require('through2');
+var Transform = require('streamx').Transform;
 var TextDecoder = require('util').TextDecoder;
 
 var BOM = '\ufeff';
@@ -11,7 +11,7 @@ function removeBomStream(encoding) {
 
   // Needed due to https://github.com/nodejs/node/pull/42779
   if (!isUTF8) {
-    return through();
+    return new Transform();
   }
 
   // Only used if encoding is UTF-8
@@ -19,9 +19,11 @@ function removeBomStream(encoding) {
 
   var state = 0; // 0:Not removed, -1:In removing, 1:Already removed
 
-  return through(onChunk);
+  return new Transform({
+    transform: onChunk
+  });
 
-  function onChunk(data, _, cb) {
+  function onChunk(data, cb) {
     if (state === 1) {
       cb(null, data);
       return;
