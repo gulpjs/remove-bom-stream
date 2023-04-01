@@ -42,7 +42,7 @@ MIT
 [npm-image]: https://img.shields.io/npm/v/remove-bom-stream.svg?style=flat-square
 
 [ci-url]: https://github.com/gulpjs/remove-bom-stream/actions?query=workflow:dev
-[ci-image]: https://img.shields.io/github/workflow/status/gulpjs/remove-bom-stream/dev?style=flat-square
+[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/remove-bom-stream/dev.yml?branch=master&style=flat-square
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/remove-bom-stream
 [coveralls-image]: https://img.shields.io/coveralls/gulpjs/remove-bom-stream/master.svg?style=flat-square
