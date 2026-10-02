@@ -13,16 +13,16 @@ Remove a UTF8 BOM at the start of the stream.
 ## Usage
 
 ```js
-var fs = require('fs');
-var concat = require('concat-stream');
-var removeBOM = require('remove-bom-stream');
+var fs = require("fs");
+var concat = require("concat-stream");
+var removeBOM = require("remove-bom-stream");
 
-fs.createReadStream('utf8-file-with-bom.txt')
-  .pipe(removeBOM('utf-8'))
+fs.createReadStream("utf8-file-with-bom.txt")
+  .pipe(removeBOM("utf-8"))
   .pipe(
     concat(function (result) {
       // result won't have a BOM
-    })
+    }),
   );
 ```
 
