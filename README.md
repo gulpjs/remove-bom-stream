@@ -32,6 +32,16 @@ fs.createReadStream('utf8-file-with-bom.txt')
 
 Returns a `Transform` stream that will remove a BOM, if the argument `encoding` is `'utf-8'` and the given data is a UTF8 Buffer with a BOM at the beginning. If the `encoding` is not `'utf-8'` or does not have a BOM, the data is not changed and this becomes a no-op `Transform` stream.
 
+## Strict No LLM / No AI Policy
+
+No LLMs for issues.
+
+No LLMs for patches / pull requests.
+
+No LLMs for comments on the bug tracker, including translation.
+
+English is encouraged, but not required. You are welcome to post in your native language and rely on others to have their own translation tools of choice to interpret your words.
+
 ## License
 
 MIT
@@ -41,9 +51,9 @@ MIT
 [npm-url]: https://npmjs.com/package/remove-bom-stream
 [npm-image]: https://img.shields.io/npm/v/remove-bom-stream.svg?style=flat-square
 
-[ci-url]: https://github.com/gulpjs/remove-bom-stream/actions?query=workflow:dev
-[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/remove-bom-stream/dev.yml?branch=master&style=flat-square
+[ci-url]: https://github.com/gulpjs/remove-bom-stream/actions/workflows/dev.yml
+[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/remove-bom-stream/dev.yml?style=flat-square
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/remove-bom-stream
-[coveralls-image]: https://img.shields.io/coveralls/gulpjs/remove-bom-stream/master.svg?style=flat-square
+[coveralls-image]: https://img.shields.io/coveralls/gulpjs/remove-bom-stream/main.svg?style=flat-square
 <!-- prettier-ignore-end -->
