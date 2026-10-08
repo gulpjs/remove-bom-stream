@@ -6,17 +6,23 @@
   "contributors": [
     "Blaine Bublitz <blaine.bublitz@gmail.com>"
   ],
-  "repository": "gulpjs/remove-bom-stream",
+  "funding": "https://github.com/sponsors/gulpjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gulpjs/remove-bom-stream.git"
+  },
   "license": "MIT",
   "engines": {
-    "node": ">= 10.13.0"
+    "node": ">= 22.15.0"
   },
-  "main": "index.js",
+  "main": "./index.js",
   "files": [
     "LICENSE",
     "index.js"
   ],
   "scripts": {
+    "format-check": "prettier . --check",
+    "format-write": "prettier . --write",
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "nyc mocha --async-only"
@@ -26,12 +32,12 @@
   },
   "devDependencies": {
     "concat-stream": "^2.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-gulp": "^5.0.1",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint": "10.11.0",
+    "eslint-config-gulp": "7.0.0",
     "expect": "^27.4.2",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
+    "prettier": "3.9.6",
     "stream-chunker": "^1.2.8"
   },
   "nyc": {
@@ -39,9 +45,6 @@
       "lcov",
       "text-summary"
     ]
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "keywords": [
     "bom",
