@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/gulpjs/remove-bom-stream/compare/v2.0.0...v3.0.0) (2026-10-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* Normalize repository, dropping Node <22.15.0 ([#14](https://github.com/gulpjs/remove-bom-stream/issues/14))
+
+### Miscellaneous Chores
+
+* Normalize repository, dropping Node &lt;22.15.0 ([#14](https://github.com/gulpjs/remove-bom-stream/issues/14)) ([1a61c5d](https://github.com/gulpjs/remove-bom-stream/commit/1a61c5d88a50ab5e0e30a72bb18d92d159b10b7c))
+
 ## [2.0.0](https://www.github.com/gulpjs/remove-bom-stream/compare/v1.2.0...v2.0.0) (2022-04-19)
 
 
