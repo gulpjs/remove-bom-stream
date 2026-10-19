@@ -2,10 +2,10 @@
 
 var fs = require("node:fs");
 var path = require("node:path");
-var pipeline = require("node:stream").pipeline;
-
+var { pipeline } = require("node:stream");
 var assert = require("node:assert");
 var { describe, it } = require("node:test");
+
 var concat = require("concat-stream");
 var chunker = require("stream-chunker");
 var Readable = require("streamx").Readable;
