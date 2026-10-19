@@ -8,29 +8,24 @@
 
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 
-Remove a UTF8 BOM at the start of the stream.
+Remove a BOM at the start of the stream.
 
 ## Usage
 
 ```js
 var fs = require("fs");
-var concat = require("concat-stream");
 var removeBOM = require("remove-bom-stream");
 
 fs.createReadStream("utf8-file-with-bom.txt")
   .pipe(removeBOM("utf-8"))
-  .pipe(
-    concat(function (result) {
-      // result won't have a BOM
-    }),
-  );
+  .pipe(fs.createWriteStream("utf8-file-without-bom.txt"));
 ```
 
 ## API
 
 ### `removeBOM(encoding)`
 
-Returns a `Transform` stream that will remove a BOM, if the argument `encoding` is `'utf-8'` and the given data is a UTF8 Buffer with a BOM at the beginning. If the `encoding` is not `'utf-8'` or does not have a BOM, the data is not changed and this becomes a no-op `Transform` stream.
+Returns a `Duplex` stream that will remove a BOM if the argument `encoding` is `'utf-8'`/`'utf-16le'`/`'utf-16be'` and the given data contains a corresponding BOM at the beginning.
 
 ## Strict No LLM / No AI Policy
 
