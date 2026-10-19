@@ -1,7 +1,7 @@
 {
   "name": "remove-bom-stream",
   "version": "2.0.0",
-  "description": "Remove a UTF8 BOM at the start of the stream.",
+  "description": "Remove a BOM at the start of the stream.",
   "author": "Gulp Team <team@gulpjs.com> (http://gulpjs.com/)",
   "contributors": [
     "Blaine Bublitz <blaine.bublitz@gmail.com>"
@@ -26,15 +26,11 @@
     "lint": "eslint .",
     "test": "node --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=test/lcov.info \"test/*.js\""
   },
-  "dependencies": {
-    "streamx": "^2.12.4"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "concat-stream": "^2.0.0",
     "eslint": "10.11.0",
     "eslint-config-gulp": "7.0.0",
-    "prettier": "3.9.6",
-    "stream-chunker": "^1.2.8"
+    "prettier": "3.9.6"
   },
   "keywords": [
     "bom",
