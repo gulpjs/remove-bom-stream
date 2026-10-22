@@ -99,7 +99,7 @@ describe("removeBomStream", function () {
     var expected = fileContent.subarray(3);
 
     function assertion(data) {
-      console.log(data);
+      assert.fail();
       assert.deepStrictEqual(data, expected);
     }
     var reader = new Readable();
